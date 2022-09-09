@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "user"
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "painting_exhibition_service.wsgi.application"
 
 
+AUTH_USER_MODEL = "user.User"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
