@@ -26,3 +26,7 @@ def check_password_is_possible(password, user_id):
     if (check_password(password, user_for_check.password)):
         return True
     return False
+
+def delete_user(user_id):
+    user_for_delete = UserModel.objects.get(id=user_id)
+    user_for_delete.is_active = False
