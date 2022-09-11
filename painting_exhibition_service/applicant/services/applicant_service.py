@@ -47,3 +47,9 @@ def accept_applicant(applicant_id_list):
         accept_status = Status.objects.get(status = "accept")
         accept_applicant_obj.status = accept_status
         artist_serializer.save()
+
+def disaccept_applicant(applicant_id_list):
+    for applicant_id in applicant_id_list:
+        accept_applicant_obj = ApplicantModel.objects.get(id=applicant_id)
+        accept_status = Status.objects.get(status = "disaccept")
+        accept_applicant_obj.status = accept_status

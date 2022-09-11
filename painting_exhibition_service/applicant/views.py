@@ -8,6 +8,7 @@ from applicant.services.applicant_service import (
     check_admin,
     check_is_applied,
     accept_applicant,
+    disaccept_applicant
 )
 # Create your views here.
 
@@ -33,8 +34,12 @@ class AdminUserView(APIView):
     """
 
     def post(self, request, status):
-        id_list = ["1","2"]
-        accept_applicant(id_list)
-        return Response()
+        if check_admin(request.user):
+            if status == "accpet":
+                accept_applicant(request.data)
+                return Response({"detail" : "해당 요청들을 승인하였습니다."}, status=status.HTTP_200_OK)
+            disaccept_applicant(request.data)
+            return Response({"detail" : "해당 요청들을 거절하였습니다."}, status=status.HTTP_200_OK)
+        return Response({"detail" : "관리자만이 접근이 가능합니다."}, status=status.HTTP_400_BAD_REQUEST)
 
 
