@@ -5,11 +5,11 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from applicant.models import Artist as ArtistModel
 # Create your models here.
 
-class ArtModel(models.Model):
+class Art(models.Model):
     class Meta:
         db_table = 'art'
     def __str__(self):
-        return f'{self.name}, ({self.artist.name})'
+        return f'{self.name}'
 
     name = models.CharField("작품명",max_length=64)
     artist = models.ForeignKey(ArtistModel, on_delete=models.CASCADE)
