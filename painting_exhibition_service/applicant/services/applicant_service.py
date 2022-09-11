@@ -1,7 +1,13 @@
-from applicant.models import Applicant as ApplicantModel, Gender
+from applicant.models import Applicant as ApplicantModel, Gender, Status
 from applicant.serializers import ApplicantSerializer
 
 from user.models import User as UserModel
+
+def read_apply():
+    all_applicant = ApplicantModel.objects.all()
+    applicant_serializer = ApplicantSerializer(all_applicant, many = True).data
+    return applicant_serializer
+
 
 def create_apply(create_data: dict[str, str], user: UserModel) -> None:
     """
@@ -15,6 +21,20 @@ def create_apply(create_data: dict[str, str], user: UserModel) -> None:
     create_data["user"] = user.id
     gender_str = create_data.pop("gender")
     gender_obj = Gender.objects.get(gender = gender_str)
+    status_obj = Status.objects.get(status="waiting")
     applicant_serializer = ApplicantSerializer(data = create_data)
     applicant_serializer.is_valid(raise_exception=True)
-    applicant_serializer.save(gender = gender_obj)
+    applicant_serializer.save(gender = gender_obj, status=status_obj)
+
+def check_admin(user: UserModel):
+    if user.is_admin == True:
+        return True
+    return False
+
+def check_is_applied(user: UserModel):
+    try:
+        ApplicantModel.objects.get(user = user)
+        return False
+    except ApplicantModel.DoesNotExist:
+        return True
+

@@ -5,6 +5,8 @@ from .models import Applicant as ApplicantModel
 VALID_EMAIL_LIST = ["naver.com","gmail.com", "google.com"]
 
 class ApplicantSerializer(serializers.ModelSerializer):
+    
+    apply_date = serializers.SerializerMethodField()
 
     def validate(self, data):
         if data.get("email",'').split("@")[-1] not in VALID_EMAIL_LIST:
@@ -16,6 +18,20 @@ class ApplicantSerializer(serializers.ModelSerializer):
             return obj.gender.gender
         return "None"
 
+    def get_applicant_status(self, obj):
+        if obj.status:
+            return obj.status.status
+        return "None"
+
+    def get_apply_date(self, obj):
+        format_data = "%m-%d %H:%M"
+
+        time = obj.apply_date
+        time_data = time.strftime(format_data)
+
+        return time_data
+
+
     class Meta:
         model = ApplicantModel
-        fields = "__all__"
+        fields = ["id", "name", "birthday", "email", "phone_number", "apply_date", "user", "gender", "status"]
