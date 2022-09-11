@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "user",
     "rest_framework",
     "rest_framework_simplejwt",
+    "user",
+    "applicant",
+    "art",
 ]
 
 MIDDLEWARE = [
