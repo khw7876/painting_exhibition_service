@@ -3,7 +3,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from user.Services.user_service import (
+from user.services.user_service import (
     create_user,
     update_user,
     delete_user,
