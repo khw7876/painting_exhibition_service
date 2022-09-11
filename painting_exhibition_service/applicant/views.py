@@ -13,4 +13,4 @@ class ApplicantView(APIView):
     """
     def post(self, request):
         create_apply(request.data, request.user)
-        return Response({"detail" : "게시글을 작성하였습니다."}, status=status.HTTP_200_OK)
+        return Response({"detail" : "작가신청을 완료하였습니다."}, status=status.HTTP_200_OK)

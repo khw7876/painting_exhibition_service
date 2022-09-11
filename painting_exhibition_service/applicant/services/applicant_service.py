@@ -1,4 +1,4 @@
-from applicant.models import Applicant as ApplicantModel
+from applicant.models import Applicant as ApplicantModel, Gender
 from applicant.serializers import ApplicantSerializer
 
 from user.models import User as UserModel
@@ -13,6 +13,8 @@ def create_apply(create_data: dict[str, str], user: UserModel) -> None:
         }
     """
     create_data["user"] = user.id
+    gender_str = create_data.pop("gender")
+    gender_obj = Gender.objects.get(gender = gender_str)
     applicant_serializer = ApplicantSerializer(data = create_data)
     applicant_serializer.is_valid(raise_exception=True)
-    applicant_serializer.save()
+    applicant_serializer.save(gender = gender_obj)

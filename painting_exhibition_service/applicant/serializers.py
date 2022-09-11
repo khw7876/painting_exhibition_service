@@ -11,6 +11,11 @@ class ApplicantSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("네이버 이메일,구글 이메일만 사용 할 수 있습니다.")
         return data
 
+    def get_applicant_gender(self, obj):
+        if obj.gender:
+            return obj.gender.gender
+        return "None"
+
     class Meta:
         model = ApplicantModel
         fields = "__all__"
