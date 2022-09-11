@@ -1,6 +1,8 @@
+from dataclasses import field
 from rest_framework import serializers
 
-from .models import Applicant as ApplicantModel
+from .models import Applicant as ApplicantModel, Artist as ArtistModel
+
 
 VALID_EMAIL_LIST = ["naver.com","gmail.com", "google.com"]
 
@@ -25,13 +27,22 @@ class ApplicantSerializer(serializers.ModelSerializer):
 
     def get_apply_date(self, obj):
         format_data = "%m-%d %H:%M"
-
         time = obj.apply_date
         time_data = time.strftime(format_data)
-
         return time_data
-
 
     class Meta:
         model = ApplicantModel
         fields = ["id", "name", "birthday", "email", "phone_number", "apply_date", "user", "gender", "status"]
+
+
+class ArtistSerializer(serializers.ModelSerializer):
+
+    def get_applicant_gender(self, obj):
+        if obj.gender:
+            return obj.gender.gender
+        return "None"
+
+    class Meta:
+        model = ArtistModel
+        fields = "__all__"

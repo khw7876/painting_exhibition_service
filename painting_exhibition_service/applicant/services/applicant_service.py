@@ -1,5 +1,5 @@
 from applicant.models import Applicant as ApplicantModel, Gender, Status
-from applicant.serializers import ApplicantSerializer
+from applicant.serializers import ApplicantSerializer, ArtistSerializer
 
 from user.models import User as UserModel
 
@@ -38,3 +38,12 @@ def check_is_applied(user: UserModel):
     except ApplicantModel.DoesNotExist:
         return True
 
+def accept_applicant(applicant_id_list):
+    for applicant_id in applicant_id_list:
+        accept_applicant_obj = ApplicantModel.objects.get(id=applicant_id)
+        applicant_serializer = ApplicantSerializer(accept_applicant_obj).data
+        artist_serializer = ArtistSerializer(data=applicant_serializer)
+        artist_serializer.is_valid(raise_exception=True)
+        accept_status = Status.objects.get(status = "accept")
+        accept_applicant_obj.status = accept_status
+        artist_serializer.save()

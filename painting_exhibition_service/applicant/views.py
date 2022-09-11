@@ -7,6 +7,7 @@ from applicant.services.applicant_service import (
     read_apply,
     check_admin,
     check_is_applied,
+    accept_applicant,
 )
 # Create your views here.
 
@@ -25,3 +26,15 @@ class ApplicantView(APIView):
             create_apply(request.data, request.user)
             return Response({"detail" : "작가신청을 완료하였습니다."}, status=status.HTTP_200_OK)
         return Response({"detail" : "이미 작가신청을 하였습니다."}, status=status.HTTP_400_BAD_REQUEST)
+
+class AdminUserView(APIView):
+    """
+    관리자 계정의 CRUD를 담당하는 View
+    """
+
+    def post(self, request, status):
+        id_list = ["1","2"]
+        accept_applicant(id_list)
+        return Response()
+
+
